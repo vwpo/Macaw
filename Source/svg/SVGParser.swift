@@ -1330,7 +1330,9 @@ open class SVGParser {
         }
 
         if clip.children.count == 1 {
-            let shape = try parseNode(clip.children.first!) as! Shape
+            guard let shape = try! parseNode(clip.children.first!) as? Shape else {
+                return .none
+            }
             if shape.place != Transform.identity {
                 let locus = TransformedLocus(locus: shape.form, transform: shape.place)
                 return UserSpaceLocus(locus: locus, userSpace: userSpace)
